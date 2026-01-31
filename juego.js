@@ -9,6 +9,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('logo', 'activos/logo-juego.png');
         this.load.image('jugador', 'activos/barco/frente.png');
         this.load.image('brujula', 'activos/brujula/brujula.png');
+        this.load.image('isla_imagen', 'activos/isla/isla1.png');
 
     }
 
@@ -30,28 +31,36 @@ class MainScene extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, dimension_oceano, dimension_oceano);
 
-        // brujula
-        this.brujula = this.add.image(1200, 640, 'brujula'); // Posición relativa a la ventana
-        this.brujula.setScale(0.2);
-        this.brujula.setScrollFactor(0);
+        //isla
+        this.isla = { x: 1000, y: 1000 };
+        this.isla_imagen = this.add.image(this.isla.x, this.isla.y, 'isla_imagen') ;
+
+        this.isla_imagen.setScale(0.2);
+
+
+
         this.jugador = this.physics.add.sprite(640, 360, 'jugador');
         this.jugador.setScale(0.2);
         //this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
 
-        this.teclas = this.input.keyboard.addKeys({
+        this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
+
+
+        // brujula
+        this.brujula = this.add.image(1200, 640, 'brujula'); // Posición relativa a la ventana
+        this.brujula.setScale(0.2);
+        this.brujula.setScrollFactor(0);
+
+        
+
+      //Entrada de teclado 
+      this.teclas = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
 
-        this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
-
-        //isla
-        this.isla = { x: 1000, y: 1000 };
-
-        // Agregar fisicas al jugador (sprite)
-        // const jugador = this.physics.add.sprite(100, 100, 'jugador'); 
     }
 
     //Funcion que se repite cada frame
