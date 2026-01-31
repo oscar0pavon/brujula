@@ -11,6 +11,8 @@ class MainScene extends Phaser.Scene {
         this.load.image('brujula', 'activos/brujula/brujula.png');
         this.load.image('isla_imagen', 'activos/isla/isla1.png');
 
+        this.load.image('rocas_clave', 'activos/rocas/roca1.png')
+
     }
 
 
@@ -45,9 +47,30 @@ class MainScene extends Phaser.Scene {
 
         this.jugador = this.physics.add.sprite(640, 360, 'jugador');
         this.jugador.setScale(0.2);
+        this.jugador.body.setSize(600,300);
+
+
         //this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
 
         this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
+
+
+        this.rocas = this.physics.add.staticGroup();
+
+        for(let i = 0; i < 20; i++){
+          let x = Phaser.Math.Between(0, dimension_oceano);
+          let y = Phaser.Math.Between(0, dimension_oceano);
+
+          let piedra = this.rocas.create(x,y, 'rocas_clave');
+
+          piedra.setScale(0.2);
+
+          piedra.body.setSize(100, 100);
+
+
+          piedra.refreshBody();
+
+        }
 
 
         // brujula
@@ -68,6 +91,7 @@ class MainScene extends Phaser.Scene {
 
         //colisiones
         this.physics.add.collider(this.jugador, this.isla_imagen, this.colisionarConIsla, null, this);
+        this.physics.add.collider(this.jugador, this.rocas);
 
 
     }
