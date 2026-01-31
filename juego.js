@@ -28,12 +28,14 @@ class Brujula extends Phaser.Scene {
     // Funcion de cargar initializar
 
     create() {
-        // Initializar los objetos de juegos y configuraciones aqui
-        // Los numeros son la posicion de la imagen
-        let logo = this.add.image(40, 40, 'logo');
-        logo.setScale(0.1);
+
+        //Constantes
+        const cantidad_de_vidas = 3;
+
+        const dimension_oceano = 10000;
 
 
+        //sonidos
         this.sonido_de_choque = this.sound.add('choque', { volume: 0.5 });
 
         this.musica_principal = this.sound.add('musica_principal', { volume: 1 });
@@ -46,11 +48,6 @@ class Brujula extends Phaser.Scene {
 
         this.vidas = this.add.group();
 
-        const cantidad_de_vidas = 3;
-
-
-
-        var dimension_oceano = 2000;
         this.oceano = this.add.tileSprite(0, 0, dimension_oceano,
             dimension_oceano, "oceano").setOrigin(0, 0);
 
@@ -58,6 +55,13 @@ class Brujula extends Phaser.Scene {
 
         //isla
         this.isla = { x: 1000, y: 1000 };
+
+        let posicion_inicital_isla_x = Phaser.Math.Between(dimension_oceano-1000, dimension_oceano);
+        let posicion_inicital_isla_y = Phaser.Math.Between(dimension_oceano-1000, dimension_oceano);
+
+        this.isla.x = posicion_inicital_isla_x;
+        this.isla.y = posicion_inicital_isla_y;
+
         this.isla_imagen = this.add.image(this.isla.x, this.isla.y, 'isla_imagen');
 
         this.isla_imagen.setScale(0.2);
@@ -80,7 +84,9 @@ class Brujula extends Phaser.Scene {
 
         this.rocas = this.physics.add.staticGroup();
 
-        for (let i = 0; i < 20; i++) {
+        let cantidad_de_piedras = dimension_oceano * 0.05;
+
+        for (let i = 0; i < cantidad_de_piedras; i++) {
             let x = Phaser.Math.Between(0, dimension_oceano);
             let y = Phaser.Math.Between(0, dimension_oceano);
 
