@@ -36,6 +36,10 @@ class MainScene extends Phaser.Scene {
         this.isla_imagen = this.add.image(this.isla.x, this.isla.y, 'isla_imagen') ;
 
         this.isla_imagen.setScale(0.2);
+        this.isla_imagen = this.physics.add.sprite(this.isla.x, this.isla.y, 'isla_imagen');
+        this.isla_imagen.setScale(0.2);
+        this.isla_imagen.setImmovable(true);
+        this.isla_imagen.body.setSize(this.isla_imagen.width * 0.5, this.isla_imagen.height * 0.5);
 
 
 
@@ -53,13 +57,18 @@ class MainScene extends Phaser.Scene {
 
         
 
-      //Entrada de teclado 
-      this.teclas = this.input.keyboard.addKeys({
+
+        //Entrada de teclado 
+        this.teclas = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
+
+        //colisiones
+        this.physics.add.collider(this.jugador, this.isla_imagen, this.colisionarConIsla, null, this);
+
 
     }
 
@@ -84,7 +93,7 @@ class MainScene extends Phaser.Scene {
         );
 
         //aplicar rotacion a la brujula
-        this.brujula.rotation = anguloAlaIsla;
+        this.brujula.rotation = anguloAlaIsla + 1.57;
 
 
         this.jugador.setVelocity(0);
@@ -113,7 +122,7 @@ const configuracion = {
     physics: {
         default: 'arcade', // Use the Arcade physics engine
         arcade: {
-            gravity: { y: 300 }, // Optional gravity
+            gravity: { y: 0 }, // Optional gravity
             debug: false
         }
     }
