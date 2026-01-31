@@ -11,6 +11,8 @@ class MainScene extends Phaser.Scene {
         this.load.image('brujula', 'activos/brujula/brujula.png');
         this.load.image('isla_imagen', 'activos/isla/isla1.png');
 
+        this.load.image('rocas_clave', 'activos/rocas/roca1.png')
+
     }
 
 
@@ -31,6 +33,25 @@ class MainScene extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, dimension_oceano, dimension_oceano);
 
+        //isla
+        this.isla = { x: 1000, y: 1000 };
+        this.isla_imagen = this.add.image(this.isla.x, this.isla.y, 'isla_imagen');
+
+        this.isla_imagen.setScale(0.2);
+        this.isla_imagen = this.physics.add.sprite(this.isla.x, this.isla.y, 'isla_imagen');
+        this.isla_imagen.setScale(0.2);
+        this.isla_imagen.setImmovable(true);
+        this.isla_imagen.body.setSize(this.isla_imagen.width * 0.5, this.isla_imagen.height * 0.5);
+
+
+
+        this.jugador = this.physics.add.sprite(640, 360, 'jugador');
+        this.jugador.setScale(0.2);
+        //this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
+
+        this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
+
+
         // brujula
         this.brujula = this.add.image(1200, 640, 'brujula'); // Posición relativa a la ventana
         this.brujula.setScale(0.2);
@@ -46,7 +67,8 @@ class MainScene extends Phaser.Scene {
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
 
-        this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
+        //colisiones
+        this.physics.add.collider(this.jugador, this.isla_imagen, this.colisionarConIsla, null, this);
 
         //isla
         this.isla = { x: 1000, y: 1000 };
