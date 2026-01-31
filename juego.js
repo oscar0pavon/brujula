@@ -9,7 +9,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('logo', 'activos/logo-juego.png');
         this.load.image('jugador', 'activos/barco/frente.png');
         this.load.image('brujula', 'activos/brujula/brujula.png');
-      
+
     }
 
 
@@ -22,15 +22,18 @@ class MainScene extends Phaser.Scene {
         let logo = this.add.image(40, 40, 'logo');
         logo.setScale(0.1);
 
-        this.brujula = this.add.image(1200, 600, 'brujula');
-        this.brujula.setScale(0.2);
+
+
         var dimension_oceano = 2000;
-        this.oceano = this.add.tileSprite(0,0, dimension_oceano,
-          dimension_oceano, "oceano").setOrigin(0,0);
+        this.oceano = this.add.tileSprite(0, 0, dimension_oceano,
+            dimension_oceano, "oceano").setOrigin(0, 0);
 
-        this.cameras.main.setBounds(0, 0 , dimension_oceano, dimension_oceano);
+        this.cameras.main.setBounds(0, 0, dimension_oceano, dimension_oceano);
 
-
+        // brujula
+        this.brujula = this.add.image(1200, 640, 'brujula'); // Posición relativa a la ventana
+        this.brujula.setScale(0.2);
+        this.brujula.setScrollFactor(0);
         this.jugador = this.physics.add.sprite(640, 360, 'jugador');
         this.jugador.setScale(0.2);
         //this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
@@ -41,11 +44,11 @@ class MainScene extends Phaser.Scene {
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
-        
+
         this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
 
         //isla
-        this.isla = { x: 3600, y: 600 };
+        this.isla = { x: 1000, y: 1000 };
 
         // Agregar fisicas al jugador (sprite)
         // const jugador = this.physics.add.sprite(100, 100, 'jugador'); 
@@ -71,8 +74,8 @@ class MainScene extends Phaser.Scene {
             this.isla.x, this.isla.y
         );
 
-        // Aplicamos la rotación a la brújula (sumamos 1.57 por que la imagen de brújula apunta originalmente a la derecha)
-        this.brujula.rotation = anguloAlaIsla + 1.57;
+        //aplicar rotacion a la brujula
+        this.brujula.rotation = anguloAlaIsla;
 
 
         this.jugador.setVelocity(0);
