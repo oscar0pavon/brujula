@@ -18,6 +18,8 @@ class Brujula extends Phaser.Scene {
         this.load.image('jugador_costado', 'activos/barco/costado1.png');
 
         this.load.image('corazon', 'activos/hud/corazon.png');
+        
+        this.load.audio('choque', 'activos/audio/choque_con_piedra.wav');
     }
 
 
@@ -30,6 +32,12 @@ class Brujula extends Phaser.Scene {
         let logo = this.add.image(40, 40, 'logo');
         logo.setScale(0.1);
 
+
+        this.sonido_de_choque = this.sound.add('choque', { volume: 0.5 });
+
+        if (this.sound.context.state === 'suspended') {
+          this.sound.context.resume();
+        }
 
         this.vidas = this.add.group();
 
@@ -117,6 +125,10 @@ class Brujula extends Phaser.Scene {
     }
 
     esta_chocando(barco, roca) {
+      // if( !this.sonido_de_choque.isPlaying ){
+      // }
+
+        this.sonido_de_choque.play();
 
         roca.destroy();
         let vidas_actuales = this.vidas.getChildren();

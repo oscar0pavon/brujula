@@ -13,6 +13,9 @@ const configuracion = {
             gravity: { y: 0 },
             debug: false
         }
+    },
+    audio: {
+        disableWebAudio: false
     }
 };
 
