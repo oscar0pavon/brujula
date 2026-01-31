@@ -31,7 +31,7 @@ class MainScene extends Phaser.Scene {
 
         this.vidas = this.add.group();
 
-      const cantidad_de_vidas = 3;
+        const cantidad_de_vidas = 3;
 
 
 
@@ -43,7 +43,7 @@ class MainScene extends Phaser.Scene {
 
         //isla
         this.isla = { x: 1000, y: 1000 };
-        this.isla_imagen = this.add.image(this.isla.x, this.isla.y, 'isla_imagen') ;
+        this.isla_imagen = this.add.image(this.isla.x, this.isla.y, 'isla_imagen');
 
         this.isla_imagen.setScale(0.2);
         this.isla_imagen = this.physics.add.sprite(this.isla.x, this.isla.y, 'isla_imagen');
@@ -55,7 +55,7 @@ class MainScene extends Phaser.Scene {
 
         this.jugador = this.physics.add.sprite(640, 360, 'jugador');
         this.jugador.setScale(0.2);
-        this.jugador.body.setSize(600,300);
+        this.jugador.body.setSize(600, 300);
 
 
         //this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
@@ -65,22 +65,22 @@ class MainScene extends Phaser.Scene {
 
         this.rocas = this.physics.add.staticGroup();
 
-        for(let i = 0; i < 20; i++){
-          let x = Phaser.Math.Between(0, dimension_oceano);
-          let y = Phaser.Math.Between(0, dimension_oceano);
+        for (let i = 0; i < 20; i++) {
+            let x = Phaser.Math.Between(0, dimension_oceano);
+            let y = Phaser.Math.Between(0, dimension_oceano);
 
-          let piedra = this.rocas.create(x,y, 'rocas_clave');
+            let piedra = this.rocas.create(x, y, 'rocas_clave');
 
-          piedra.setScale(0.2);
+            piedra.setScale(0.2);
 
-          piedra.body.setSize(100, 100);
+            piedra.body.setSize(100, 100);
 
 
-          piedra.refreshBody();
+            piedra.refreshBody();
 
         }
-        
-      //HUD
+
+        //HUD
 
         // brujula
         this.brujula = this.add.image(1200, 640, 'brujula'); // Posición relativa a la ventana
@@ -88,13 +88,15 @@ class MainScene extends Phaser.Scene {
         this.brujula.setScrollFactor(0);
 
 
-      //vidad
-      for(let i = 0; i < cantidad_de_vidas; i++){
-          let pisicion_x = 50 + (i * 50);
-          let vida_imagen = this.vidas.create(pisicion_x, 50, 'corazon')
-          vida_imagen.setScale(0.3);
-      }
-        
+        //vidad
+        for (let i = 0; i < cantidad_de_vidas; i++) {
+            let pisicion_x = 50 + (i * 50);
+            let vida_imagen = this.vidas.create(pisicion_x, 80, 'corazon')
+            vida_imagen.setScale(0.3);
+            vida_imagen.setScrollFactor(0);
+            vida_imagen.setDepth(1000);
+        }
+
 
 
         //Entrada de teclado 
@@ -107,27 +109,41 @@ class MainScene extends Phaser.Scene {
 
         //colisiones
         this.physics.add.collider(this.jugador, this.isla_imagen, this.colisionarConIsla, null, this);
-        this.physics.add.collider(this.jugador, this.rocas);
+        this.physics.add.collider(this.jugador, this.rocas, this.esta_chocando, null, this);
 
 
     }
 
-  esta_chocando(barco, roca){
-    let vidas_actuales = this.vidas.getChildren();
-    
-    if(vidas_actuales.length > 0){
-     
-      let ultimo_corazon = vidas_actuales[vidas_actuales.length - 1];
+    esta_chocando(barco, roca) {
 
-      ultimo_corazon.destroy();
+        roca.destroy();
+        let vidas_actuales = this.vidas.getChildren();
+        if (vidas_actuales.length > 0) {
+            let ultimo_corazon = vidas_actuales[vidas_actuales.length - 1];
+            ultimo_corazon.destroy();
+            if (vidas_actuales.length === 0) {
+                this.perderJuego();
+            }
 
-      if( vidas_actuales.length === 0 ){
-        //mostrar "Juego Perdido"
-      }
+        }
 
     }
 
-  }
+    perderJuego() {
+        this.physics.pause();
+        this.jugador.setTint(0xff0000);
+        let texto_perdiste = this.add.text(640, 360, 'PERDISTE', {
+            fontSize: '64px',
+            fill: '#ffffff',
+            fontStyle: 'bold',
+            stroke: '#000000',
+            strokeThickness: 6
+        }).setOrigin(0.5).setScrollFactor(0).setDepth(1);
+
+        this.input.keyboard.on('keydown-SPACE', () => {
+            this.scene.restart();
+        });
+    }
 
     //Funcion que se repite cada frame
     update() {
