@@ -48,5 +48,11 @@ class MenuPrincipal extends Phaser.Scene {
     botonEmpezar.on('pointerout', () => {
       botonEmpezar.setStyle({ fill: '#fff', backgroundColor: '#0077be' });
     });
+
+  }
+  update() {
+    // Movimiento suave del océano en el menú para que no sea estático
+    this.fondoMenu.tilePositionX += 0.06;
+    this.fondoMenu.tilePositionY += 0.06;
   }
 }
