@@ -5,9 +5,11 @@ class MainScene extends Phaser.Scene {
     preload() {
         //Cargar los activos aqui (imagenes, sonidos, etc)
         //Cargar assets
+        this.load.image('oceano', 'activos/oceano/oceano1.jpg')
         this.load.image('logo', 'activos/logo-juego.png');
         this.load.image('jugador', 'activos/barco/frente.png');
         this.load.image('brujula', 'activos/brujula/brujula.png');
+      
     }
 
 
@@ -22,10 +24,16 @@ class MainScene extends Phaser.Scene {
 
         this.brujula = this.add.image(1200, 600, 'brujula');
         this.brujula.setScale(0.2);
+        var dimension_oceano = 2000;
+        this.oceano = this.add.tileSprite(0,0, dimension_oceano,
+          dimension_oceano, "oceano").setOrigin(0,0);
+
+        this.cameras.main.setBounds(0, 0 , dimension_oceano, dimension_oceano);
+
 
         this.jugador = this.physics.add.sprite(640, 360, 'jugador');
         this.jugador.setScale(0.2);
-        this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
+        //this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
 
         this.teclas = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -33,6 +41,8 @@ class MainScene extends Phaser.Scene {
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
+        
+        this.cameras.main.startFollow(this.jugador, true, 0.1, 0.1);
 
         //isla
         this.isla = { x: 3600, y: 600 };
@@ -43,6 +53,12 @@ class MainScene extends Phaser.Scene {
 
     //Funcion que se repite cada frame
     update() {
+
+        var velocidad_movimiento_olas = 0.06;
+
+        this.oceano.tilePositionX += velocidad_movimiento_olas;
+        this.oceano.tilePositionY += velocidad_movimiento_olas;
+
         // Velocidad constante
         const velocidad = 300;
 
