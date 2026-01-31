@@ -39,6 +39,10 @@ class MainScene extends Phaser.Scene {
         // Velocidad constante
         const velocidad = 300;
 
+        if (this.jugador.body.velocity.length() > 90) {
+            this.jugador.rotation = this.jugador.body.angle;
+        }
+
         // Resetear velocidad en cada frame para que no se mueva solo
         this.jugador.setVelocity(0);
 
