@@ -133,6 +133,29 @@ class MainScene extends Phaser.Scene {
             this.jugador.setVelocityY(velocidad);
         }
     }
+
+    //funcion de colision con isla
+    colisionarConIsla(jugador, isla) {
+        this.physics.pause();
+        // Creacion del texto flotante
+        let textoGanaste = this.add.text(640, 360, 'GANASTE', {
+            fontSize: '64px',
+            fill: '#ffffff',
+            fontStyle: 'bold',
+            stroke: '#000000',
+            strokeThickness: 6,
+            fontFamily: 'Arial'
+        });
+
+        // Configuraciones
+        textoGanaste.setOrigin(0.5);
+        textoGanaste.setScrollFactor(0);
+        textoGanaste.setDepth(1000);
+        this.input.keyboard.once('keydown-SPACE', () => {
+            this.scene.restart();
+        });
+
+    }
 }
 
 // Configuracion de la instacia del juego Phaser framework
