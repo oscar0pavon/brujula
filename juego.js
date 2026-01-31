@@ -23,7 +23,12 @@ class MainScene extends Phaser.Scene {
         this.jugador.setScale(0.2);
         this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
 
-        this.cursors = this.input.keyboard.createCursorKeys();
+        this.teclas = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.W,
+            down: Phaser.Input.Keyboard.KeyCodes.S,
+            left: Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D
+        });
 
         // Agregar fisicas al jugador (sprite)
         // const jugador = this.physics.add.sprite(100, 100, 'jugador'); 
@@ -37,15 +42,15 @@ class MainScene extends Phaser.Scene {
         // Resetear velocidad en cada frame para que no se mueva solo
         this.jugador.setVelocity(0);
 
-        if (this.cursors.left.isDown) {
+        if (this.teclas.left.isDown) {
             this.jugador.setVelocityX(-velocidad);
-        } else if (this.cursors.right.isDown) {
+        } else if (this.teclas.right.isDown) {
             this.jugador.setVelocityX(velocidad);
         }
 
-        if (this.cursors.up.isDown) {
+        if (this.teclas.up.isDown) {
             this.jugador.setVelocityY(-velocidad);
-        } else if (this.cursors.down.isDown) {
+        } else if (this.teclas.down.isDown) {
             this.jugador.setVelocityY(velocidad);
         }
     }
