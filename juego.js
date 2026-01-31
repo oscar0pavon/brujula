@@ -19,10 +19,11 @@ class MainScene extends Phaser.Scene {
         let logo = this.add.image(40, 40, 'logo');
         logo.setScale(0.1);
 
-        let jugador = this.add.image(640, 360, 'jugador');
+        this.jugador = this.physics.add.sprite(640, 360, 'jugador');
+        this.jugador.setScale(0.2);
+        this.jugador.setCollideWorldBounds(true); // Para que no se salga de la pantalla
 
-        jugador.setScale(0.2);
-
+        this.cursors = this.input.keyboard.createCursorKeys();
 
         // Agregar fisicas al jugador (sprite)
         // const jugador = this.physics.add.sprite(100, 100, 'jugador'); 
@@ -30,8 +31,23 @@ class MainScene extends Phaser.Scene {
 
     //Funcion que se repite cada frame
     update() {
-        // Logica del juego, se ejecuta cada frame ( cada actualizacion de images por segundos )
-        // Por ejemplo a 30 fps (frame per seconds)
+        // Velocidad constante
+        const velocidad = 300;
+
+        // Resetear velocidad en cada frame para que no se mueva solo
+        this.jugador.setVelocity(0);
+
+        if (this.cursors.left.isDown) {
+            this.jugador.setVelocityX(-velocidad);
+        } else if (this.cursors.right.isDown) {
+            this.jugador.setVelocityX(velocidad);
+        }
+
+        if (this.cursors.up.isDown) {
+            this.jugador.setVelocityY(-velocidad);
+        } else if (this.cursors.down.isDown) {
+            this.jugador.setVelocityY(velocidad);
+        }
     }
 }
 
