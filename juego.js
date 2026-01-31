@@ -14,6 +14,8 @@ class MainScene extends Phaser.Scene {
         this.load.image('rocas_clave', 'activos/rocas/roca1.png')
 
         this.load.image('jugador_costado', 'activos/barco/costado1.png');
+
+        this.load.image('corazon', 'activos/hud/corazon.png');
     }
 
 
@@ -25,6 +27,11 @@ class MainScene extends Phaser.Scene {
         // Los numeros son la posicion de la imagen
         let logo = this.add.image(40, 40, 'logo');
         logo.setScale(0.1);
+
+
+        this.vidas = this.add.group();
+
+      const cantidad_de_vidas = 3;
 
 
 
@@ -72,13 +79,21 @@ class MainScene extends Phaser.Scene {
           piedra.refreshBody();
 
         }
-
+        
+      //HUD
 
         // brujula
         this.brujula = this.add.image(1200, 640, 'brujula'); // Posición relativa a la ventana
         this.brujula.setScale(0.2);
         this.brujula.setScrollFactor(0);
 
+
+      //vidad
+      for(let i = 0; i < cantidad_de_vidas; i++){
+          let pisicion_x = 50 + (i * 50);
+          let vida_imagen = this.vidas.create(pisicion_x, 50, 'corazon')
+          vida_imagen.setScale(0.3);
+      }
         
 
 
@@ -96,6 +111,23 @@ class MainScene extends Phaser.Scene {
 
 
     }
+
+  esta_chocando(barco, roca){
+    let vidas_actuales = this.vidas.getChildren();
+    
+    if(vidas_actuales.length > 0){
+     
+      let ultimo_corazon = vidas_actuales[vidas_actuales.length - 1];
+
+      ultimo_corazon.destroy();
+
+      if( vidas_actuales.length === 0 ){
+        //mostrar "Juego Perdido"
+      }
+
+    }
+
+  }
 
     //Funcion que se repite cada frame
     update() {
