@@ -1,6 +1,8 @@
-// Define la escena del juego Brujula
 
-class MainScene extends Phaser.Scene {
+class Brujula extends Phaser.Scene {
+    constructor() {
+        super('Brujula');
+    }
 
     preload() {
         //Cargar los activos aqui (imagenes, sonidos, etc)
@@ -213,24 +215,4 @@ class MainScene extends Phaser.Scene {
     }
 }
 
-// Configuracion de la instacia del juego Phaser framework
 
-const configuracion = {
-    type: Phaser.AUTO, // Use WebGL if available, otherwise Canvas
-    width: 1280,
-    height: 720,
-    parent: 'contenedor-juego', // Cambiar al nombre del index.html
-    scene: MainScene, // La escena a usar
-    physics: {
-        default: 'arcade', // Use the Arcade physics engine
-        arcade: {
-            gravity: { y: 0 }, // Optional gravity
-            debug: false
-        }
-    }
-};
-
-// Create la escena principal cuando la ventana carga
-window.onload = () => {
-    var juego = new Phaser.Game(configuracion);
-};
