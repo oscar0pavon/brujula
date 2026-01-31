@@ -20,6 +20,7 @@ class Brujula extends Phaser.Scene {
         this.load.image('corazon', 'activos/hud/corazon.png');
         
         this.load.audio('choque', 'activos/audio/choque_con_piedra.wav');
+        this.load.audio('musica_principal', 'activos/audio/principal.wav');
     }
 
 
@@ -34,6 +35,10 @@ class Brujula extends Phaser.Scene {
 
 
         this.sonido_de_choque = this.sound.add('choque', { volume: 0.5 });
+
+        this.musica_principal = this.sound.add('musica_principal', { volume: 1 });
+
+        this.musica_principal.play();
 
         if (this.sound.context.state === 'suspended') {
           this.sound.context.resume();
@@ -144,8 +149,12 @@ class Brujula extends Phaser.Scene {
     }
 
     perderJuego() {
+
+        this.musica_principal.stop()  
+
         this.physics.pause();
         this.jugador.setTint(0xff0000);
+        
         let texto_perdiste = this.add.text(640, 360, 'PERDISTE', {
             fontSize: '64px',
             fill: '#ffffff',
