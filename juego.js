@@ -2,6 +2,7 @@
 class MainScene extends Phaser.Scene {
     preload() {
         // Load assets here (images, sounds, etc.)
+        //Cargar assets
         this.load.image('logo', 'assets/phaser-logo.png'); // You need to have this asset in an assets folder
     }
 
