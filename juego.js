@@ -23,7 +23,6 @@ class MainScene extends Phaser.Scene {
 
         jugador.setScale(0.2);
 
-        //nuevo comentario
 
         // Agregar fisicas al jugador (sprite)
         // const jugador = this.physics.add.sprite(100, 100, 'jugador'); 
