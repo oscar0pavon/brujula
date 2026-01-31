@@ -13,6 +13,7 @@ class MainScene extends Phaser.Scene {
 
         this.load.image('rocas_clave', 'activos/rocas/roca1.png')
 
+        this.load.image('jugador_costado', 'activos/barco/costado1.png');
     }
 
 
@@ -123,14 +124,20 @@ class MainScene extends Phaser.Scene {
         this.jugador.setVelocity(0);
         if (this.teclas.left.isDown) {
             this.jugador.setVelocityX(-velocidad);
+            this.jugador.setTexture('jugador_costado');
+            this.jugador.setFlipY(true);
         } else if (this.teclas.right.isDown) {
             this.jugador.setVelocityX(velocidad);
+            this.jugador.setTexture('jugador_costado');
+            this.jugador.setFlipY(false);
         }
 
         if (this.teclas.up.isDown) {
             this.jugador.setVelocityY(-velocidad);
+            this.jugador.setTexture('jugador');
         } else if (this.teclas.down.isDown) {
             this.jugador.setVelocityY(velocidad);
+            this.jugador.setTexture('jugador');
         }
     }
 
