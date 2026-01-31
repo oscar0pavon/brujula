@@ -1,31 +1,42 @@
-// Define a scene for your game
+// Define la escena del juego Brujula
+
 class MainScene extends Phaser.Scene {
+
     preload() {
         //Cargar los activos aqui (imagenes, sonidos, etc)
         //Cargar assets
         this.load.image('logo', 'activos/logo-juego.png');
     }
 
-    create() {
-        // Initialize game objects and settings here
-        this.add.image(400, 300, 'logo'); // Add the loaded image to the scene
+  
 
-        // Example of adding physics to a sprite
-        // const player = this.physics.add.sprite(100, 100, 'player'); 
+    // Funcion de cargar initializar
+
+    create() {
+        // Initializar los objetos de juegos y configuraciones aqui
+
+        this.add.image(400, 300, 'logo'); 
+
+        // Agregar fisicas al jugador (sprite)
+        // const jugador = this.physics.add.sprite(100, 100, 'jugador'); 
     }
 
+
+    //Funcion que se repite cada frame
     update() {
-        // Game logic that runs every frame (e.g., player movement, collision checks)
+      // Logica del juego, se ejecuta cada frame ( cada actualizacion de images por segundos )
+      // Por ejemplo a 30 fps (frame per seconds)
     }
 }
 
-// Configuration for the Phaser game instance
-const config = {
+// Configuracion de la instacia del juego Phaser framework
+
+const configuracion = {
     type: Phaser.AUTO, // Use WebGL if available, otherwise Canvas
     width: 800,
     height: 600,
-    parent: 'game-container', // Attach the game to the 'game-container' div in index.html
-    scene: MainScene, // The scene to use
+    parent: 'game-container', // Cambiar al nombre del index.html
+    scene: MainScene, // La escena a usar
     physics: {
         default: 'arcade', // Use the Arcade physics engine
         arcade: {
@@ -35,7 +46,7 @@ const config = {
     }
 };
 
-// Create the main game instance when the window loads
+// Create la escena principal cuando la ventana carga
 window.onload = () => {
-    var game = new Phaser.Game(config);
+    var juego = new Phaser.Game(configuracion);
 };
